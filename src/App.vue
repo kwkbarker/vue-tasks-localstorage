@@ -1,71 +1,83 @@
 <template>
-  <form @submit.prevent="addTask">
-    <input
-      type="text"
-      placeholder="Title"
-      name="title"
-      v-model="value"
-    />
-    <p>{{ value }}</p>
-    <button 
-      type="submit"
-    >Submit</button>
-    <br>
+  <div class="wrapper">
+    <h2>Tasks</h2>
     <div
-       v-if="showTasks"
-    >
-      <div
-        v-for="task in tasks"
-        :key="task.id"
+         v-if="tasks != []"
       >
-        <p>{{ task.title }}</p>
+        <div class="tasks"
+          v-for="task in tasks"
+          :key="task.id"
+        >
+          <task :task="task" />
+        </div>
+    </div>
+      <div
+        v-else
+      >
+        <h5>No tasks to show.</h5>
       </div>
-    </div>
-    <div
-      v-else
-    >
-      <h5>No tasks to show.</h5>
-    </div>
 
-  </form>
+
+    <form @submit.prevent="addTask">
+      <input
+        type="text"
+        placeholder="Title"
+        name="value"
+        v-model="newTitle"
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        name="description"
+        v-model="newDesc"
+      />
+      <br />
+      <button
+        type="submit"
+      >Submit</button>
+    </form>
+  </div>
 </template>
 
 <script>
-
+import Task from './Task.vue'
 export default {
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
+  components: {
+    Task
   },
 
   data() {
     return {
-      tasks: [],
-      showTasks: false
+      newTitle: null,
+      newDesc: null,
+      tasks: []
     }
   },
 
   // // fetch tasks from local storage
   // or initialize empty storage
   mounted() {
-    if (!localStorage.tasks) {
-      localStorage.tasks = []
+    if (!localStorage.getItem('tasks')) {
+      localStorage.setItem('tasks', [])
     }
     this.refreshTasks()
   },
 
   methods: {
     addTask() {
-      if (!this.value) {
+      if (!this.newTitle) {
         return
       }
-      console.log(this.value)
-      this.tasks.push(this.value)
-      // this.value = ''
+      const newTask = {
+        id: this.tasks.length + 1,
+        title: this.newTitle,
+        description: this.newDesc
+      }
+      this.tasks.push(newTask)
+      this.newTitle = ''
+      this.newDesc = ''
       this.saveTasks()
-      this.refreshTasks()
+      this.$emit('refreshTasks')
     },
 
     saveTasks() {
@@ -75,7 +87,14 @@ export default {
 
     refreshTasks() {
       var self = this
-      self.tasks = localStorage.tasks
+      var str_data = localStorage.getItem('tasks')
+      var arr = JSON.parse(str_data)
+
+      for (let i = 0; i < arr.length; i++) {
+        self.tasks.push(arr[i])
+      }
+
+      console.log(this.tasks)
     }
   }
 
@@ -84,4 +103,25 @@ export default {
 
 <style scoped>
 
+input {
+  height: 30px;
+  width: 200px;
+  padding: 5px;
+  margin: 30px;
+}
+
+button {
+  margin-left: 30px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tasks {
+  width: 100%;
+}
 </style>
