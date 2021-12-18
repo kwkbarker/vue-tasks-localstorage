@@ -1,16 +1,51 @@
 <template>
-  <div class="task">
+  <div 
+    class="task"
+    @click="editTask"
+  >
     <p>{{ task.title }}</p>
     <p>{{ task.description}}</p>
+    <div
+      class="edit"
+      v-if="showEdit"
+    >
+      <edit-input 
+        :title="task.title"
+        :description="task.description"
+        @submit="editTask"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import EditInput from './EditInput.vue'
 
 export default {
+  components: {
+    EditInput
+  },
+
   props: {
     task: {
       type: Object
+    }
+  },
+
+  data() {
+    return {
+      showEdit: false,
+      editTitle: null,
+      editDesc: null
+    }
+  },
+
+  methods: {
+    editTask() {
+      this.showEdit = true
+
+
+      this.showEdit = false
     }
   }
 }

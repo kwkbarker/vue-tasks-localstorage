@@ -18,38 +18,26 @@
       </div>
 
 
-    <form @submit.prevent="addTask">
-      <input
-        type="text"
-        placeholder="Title"
-        name="value"
-        v-model="newTitle"
-      />
-      <input
-        type="text"
-        placeholder="Description"
-        name="description"
-        v-model="newDesc"
-      />
-      <br />
-      <button
-        type="submit"
-      >Submit</button>
-    </form>
+    <edit-input @submitButton="addTask" 
+      :title="newTitle"
+      :description="newDesc"
+      :post="post"
+    />
   </div>
 </template>
 
 <script>
 import Task from './Task.vue'
+import EditInput from './EditInput.vue'
+
 export default {
   components: {
-    Task
+    Task,
+    EditInput
   },
 
   data() {
     return {
-      newTitle: null,
-      newDesc: null,
       tasks: []
     }
   },
