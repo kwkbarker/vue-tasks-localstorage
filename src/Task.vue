@@ -5,7 +5,7 @@
   >
     <p>{{ task.title }}</p>
     <p>{{ task.description}}</p>
-    <div
+    <!-- <div
       class="edit"
       v-if="showEdit"
     >
@@ -14,7 +14,7 @@
         :description="task.description"
         @submit="editTask"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
   methods: {
     editTask() {
       this.showEdit = true
-
+      console.log('edit')
 
       this.showEdit = false
     }

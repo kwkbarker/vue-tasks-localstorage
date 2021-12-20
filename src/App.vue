@@ -18,11 +18,32 @@
       </div>
 
 
-    <edit-input @submitButton="addTask" 
+    <!-- <edit-input @submitButton="addTask" 
       :title="newTitle"
       :description="newDesc"
       :post="post"
+    /> -->
+
+  <form @submit.prevent="addTask">
+    <input
+      type="text"
+      :placeholder="title"
+      name="value"
+      v-model="newTitle"
     />
+    <input
+      type="text"
+      :placeholder="description"
+      name="description"
+      v-model="newDesc"
+    />
+    <br />
+    <button
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
   </div>
 </template>
 
@@ -38,7 +59,9 @@ export default {
 
   data() {
     return {
-      tasks: []
+      tasks: [],
+      newTitle: '',
+      newDesc: ''
     }
   },
 
