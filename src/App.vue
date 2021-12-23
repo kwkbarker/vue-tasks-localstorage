@@ -11,31 +11,16 @@
           <task :task="task" />
         </div>
     </div>
-      <div
+    <div
         v-else
       >
-        <h5>No tasks to show.</h5>
-      </div>
-
-
-    <!-- <edit-input @submitButton="addTask" 
-      :title="newTitle"
-      :description="newDesc"
-      :post="post"
-    /> -->
+      <h5>No tasks to show.</h5>
+    </div>
 
   <form @submit.prevent="addTask">
-    <input
-      type="text"
-      :placeholder="title"
-      name="value"
-      v-model="newTitle"
-    />
-    <input
-      type="text"
-      :placeholder="description"
-      name="description"
-      v-model="newDesc"
+    <task-input
+      v-model:title="title"
+      v-model:description="description"
     />
     <br />
     <button
@@ -49,19 +34,19 @@
 
 <script>
 import Task from './Task.vue'
-import EditInput from './EditInput.vue'
+import TaskInput from './TaskInput.vue'
 
 export default {
   components: {
     Task,
-    EditInput
+    TaskInput
   },
 
   data() {
     return {
       tasks: [],
-      newTitle: '',
-      newDesc: ''
+      title: null,
+      description: null
     }
   },
 
@@ -76,17 +61,18 @@ export default {
 
   methods: {
     addTask() {
-      if (!this.newTitle) {
+      console.log('addTask')
+      if (!this.title) {
         return
       }
       const newTask = {
         id: this.tasks.length + 1,
-        title: this.newTitle,
-        description: this.newDesc
+        title: this.title,
+        description: this.description
       }
       this.tasks.push(newTask)
-      this.newTitle = ''
-      this.newDesc = ''
+      this.title = ''
+      this.description = ''
       this.saveTasks()
       this.$emit('refreshTasks')
     },
@@ -113,13 +99,6 @@ export default {
 </script>
 
 <style scoped>
-
-input {
-  height: 30px;
-  width: 200px;
-  padding: 5px;
-  margin: 30px;
-}
 
 button {
   margin-left: 30px;

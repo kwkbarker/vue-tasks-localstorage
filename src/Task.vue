@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import EditInput from './EditInput.vue'
+import TaskInput from './TaskInput.vue'
 
 export default {
   components: {
-    EditInput
+    TaskInput
   },
 
   props: {
