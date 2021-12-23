@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   emits: ['update:title', 'update:description'],
   props: {
@@ -25,7 +24,7 @@ export default {
     },
     description: {
       type: String
-    }
+    },
   },
 
 }

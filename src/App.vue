@@ -9,6 +9,7 @@
           :key="task.id"
         >
           <task :task="task" />
+   
         </div>
     </div>
     <div
@@ -16,7 +17,7 @@
       >
       <h5>No tasks to show.</h5>
     </div>
-
+  <h2>New Task</h2>
   <form @submit.prevent="addTask">
     <task-input
       v-model:title="title"
@@ -33,20 +34,26 @@
 </template>
 
 <script>
+
 import Task from './Task.vue'
 import TaskInput from './TaskInput.vue'
+// import EditInput from './EditInput.vue'
 
 export default {
   components: {
     Task,
-    TaskInput
+    TaskInput,
+    // EditInput
   },
 
   data() {
     return {
       tasks: [],
       title: null,
-      description: null
+      description: null,
+      newTitle: null,
+      newDesc: null,
+      // editShow: false
     }
   },
 
@@ -91,8 +98,8 @@ export default {
         self.tasks.push(arr[i])
       }
 
-      console.log(this.tasks)
-    }
+    },
+
   }
 
 }
@@ -113,5 +120,9 @@ button {
 
 .tasks {
   width: 100%;
+}
+
+edit-input {
+  margin:0;
 }
 </style>

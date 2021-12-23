@@ -5,25 +5,26 @@
   >
     <p>{{ task.title }}</p>
     <p>{{ task.description}}</p>
-    <!-- <div
-      class="edit"
-      v-if="showEdit"
-    >
-      <edit-input 
-        :title="task.title"
-        :description="task.description"
-        @submit="editTask"
-      />
-    </div> -->
+
+    <button 
+      id="{{ task.id }}" 
+      @click="editClick( )"
+    >Edit</button>
+
+    <edit-input
+      :editShow="editShow"
+    />
   </div>
 </template>
 
 <script>
 import TaskInput from './TaskInput.vue'
+import EditInput from './EditInput.vue'
 
 export default {
   components: {
-    TaskInput
+    TaskInput,
+    EditInput
   },
 
   props: {
@@ -34,7 +35,7 @@ export default {
 
   data() {
     return {
-      showEdit: false,
+      editShow: false,
       editTitle: null,
       editDesc: null
     }
@@ -46,6 +47,10 @@ export default {
       console.log('edit')
 
       this.showEdit = false
+    },
+
+    editClick( ) {
+      this.editShow = !this.editShow
     }
   }
 }
