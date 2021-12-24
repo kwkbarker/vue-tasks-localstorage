@@ -1,7 +1,7 @@
 <template>
   <div 
     class="task"
-    @click="editTask"
+    @submit.prevent="editTask"
   >
     <p>{{ task.title }}</p>
     <p>{{ task.description}}</p>
@@ -13,6 +13,7 @@
 
     <edit-input
       :editShow="editShow"
+      
     />
   </div>
 </template>
@@ -43,10 +44,7 @@ export default {
 
   methods: {
     editTask() {
-      this.showEdit = true
       console.log('edit')
-
-      this.showEdit = false
     },
 
     editClick( ) {

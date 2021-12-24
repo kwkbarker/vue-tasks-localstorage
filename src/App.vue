@@ -37,32 +37,26 @@
 
 import Task from './Task.vue'
 import TaskInput from './TaskInput.vue'
-// import EditInput from './EditInput.vue'
 
 export default {
   components: {
     Task,
     TaskInput,
-    // EditInput
   },
 
   data() {
     return {
-      tasks: [],
       title: null,
       description: null,
       newTitle: null,
       newDesc: null,
-      // editShow: false
     }
   },
 
   // // fetch tasks from local storage
   // or initialize empty storage
   mounted() {
-    if (!localStorage.getItem('tasks')) {
-      localStorage.setItem('tasks', [])
-    }
+    
     this.refreshTasks()
   },
 
@@ -90,16 +84,22 @@ export default {
     },
 
     refreshTasks() {
-      var self = this
-      var str_data = localStorage.getItem('tasks')
-      var arr = JSON.parse(str_data)
+      // var self = this
+      // var str_data = localStorage.getItem('tasks')
+      // var arr = JSON.parse(str_data)
 
-      for (let i = 0; i < arr.length; i++) {
-        self.tasks.push(arr[i])
-      }
-
+      // for (let i = 0; i < arr.length; i++) {
+      //   self.tasks.push(arr[i])
+      // }
+      this.$store.dispatch('tasks/fetch')
     },
 
+  },
+
+  computed: {
+    tasks() {
+      return this.$store.state.tasks.all
+    }
   }
 
 }
