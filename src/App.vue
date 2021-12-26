@@ -8,7 +8,9 @@
           v-for="task in tasks"
           :key="task.id"
         >
-          <task :task="task" />
+          <task :task="task" 
+          @refreshTasks='refreshTasks'
+          />
    
         </div>
     </div>
@@ -56,31 +58,29 @@ export default {
   // // fetch tasks from local storage
   // or initialize empty storage
   mounted() {
-    
     this.refreshTasks()
   },
 
   methods: {
     addTask() {
-      console.log('addTask')
       if (!this.title) {
         return
       }
       const newTask = {
-        id: this.tasks.length + 1,
+        id: this.$store.getters.count + 1,
         title: this.title,
         description: this.description
       }
-      this.tasks.push(newTask)
+      // this.tasks.push(newTask)
+      this.$store.commit('addTask', newTask)
       this.title = ''
       this.description = ''
-      this.saveTasks()
+      // this.saveTasks()
       this.$emit('refreshTasks')
     },
 
     saveTasks() {
-      const parsed = JSON.stringify(this.tasks)
-      localStorage.setItem('tasks', parsed)
+      this.$store.dispatch('tasks/save')
     },
 
     refreshTasks() {

@@ -13,7 +13,7 @@
 
     <edit-input
       :editShow="editShow"
-      
+      @editTask='editTask'
     />
   </div>
 </template>
@@ -44,7 +44,18 @@ export default {
 
   methods: {
     editTask() {
-      console.log('edit')
+      const newTask = {
+        id: this.task.id,
+        title: this.editTitle,
+        description: this.editDesc
+      }
+
+      this.$store.commit('editTask', newTask)
+
+      this.editTitle = ''
+      this.editDesc = ''
+
+      this.$emit('refreshTasks')
     },
 
     editClick( ) {
