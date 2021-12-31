@@ -17,14 +17,18 @@ const tasks = {
 
         addTask(state, task) {
             state.all.push(task)
+            this.dispatch('tasks/save')
         },
 
         editTask(state, task) {
-            post = state.all.find(x => {
-                return x.id === task.id
-            })
-            post = task
+            state.all[task.id-1] = task
+            this.dispatch('tasks/save')
         },
+
+        deleteTask(state, taskId) {
+            state.all.splice([taskId-1], 1)
+            this.dispatch('tasks/save')
+        }
 
     },
 
@@ -38,13 +42,13 @@ const tasks = {
         },
 
         save(ctx) {
-            const parsed = JSON.stringify(ctx.all)
+            const parsed = JSON.stringify(ctx.state.all)
             localStorage.setItem('tasks', parsed)
         }
     },
 
     getters: {
-        count: state => {
+        count(state) {
             return state.all.length
         }
     }

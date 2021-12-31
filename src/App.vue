@@ -67,12 +67,12 @@ export default {
         return
       }
       const newTask = {
-        id: this.$store.getters.count + 1,
+        id: this.$store.getters['tasks/count'] + 1,
         title: this.title,
         description: this.description
       }
       // this.tasks.push(newTask)
-      this.$store.commit('addTask', newTask)
+      this.$store.commit('tasks/addTask', newTask)
       this.title = ''
       this.description = ''
       // this.saveTasks()
@@ -115,7 +115,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .tasks {

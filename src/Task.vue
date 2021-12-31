@@ -8,12 +8,18 @@
 
     <button 
       id="{{ task.id }}" 
-      @click="editClick( )"
-    >Edit</button>
+      @click="editClick()"
+    >
+      Edit
+    </button>
+
+    <button @click="deleteClick()">
+      Delete
+    </button>
 
     <edit-input
       :editShow="editShow"
-      @editTask='editTask'
+      @editTitle='editTask'
     />
   </div>
 </template>
@@ -31,35 +37,37 @@ export default {
   props: {
     task: {
       type: Object
-    }
+    },
+    editTitle: String,
+    editDesc: String
   },
 
   data() {
     return {
       editShow: false,
-      editTitle: null,
-      editDesc: null
     }
   },
 
   methods: {
-    editTask() {
-      const newTask = {
+    editTask(newTask) {
+      this.editShow = false
+      const editedTask = {
         id: this.task.id,
-        title: this.editTitle,
-        description: this.editDesc
+        title: newTask.title,
+        description: newTask.description
       }
-
-      this.$store.commit('editTask', newTask)
-
-      this.editTitle = ''
-      this.editDesc = ''
+      this.$store.commit('tasks/editTask', editedTask)
 
       this.$emit('refreshTasks')
     },
 
-    editClick( ) {
+    editClick() {
       this.editShow = !this.editShow
+    },
+
+    deleteClick() {
+      this.$store.commit('tasks/deleteTask', this.task.id)
+      this.$emit('refreshTasks')
     }
   }
 }

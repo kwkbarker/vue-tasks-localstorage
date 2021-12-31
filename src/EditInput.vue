@@ -2,15 +2,14 @@
     <div
         v-if="editShow"
     >
-        <form submit.prevent="editTask">
             <task-input
-                v-model:title="newTitle"
-                v-model:description="newDesc"
+                v-model:title="newTask.newTitle"
+                v-model:description="newTask.newDesc"
             />
-            <button type="submit">
+            <button @click="editTask">
                 Submit
             </button>
-        </form>
+        
     </div>
     
 </template>
@@ -18,7 +17,7 @@
 <script>
 import TaskInput from './TaskInput.vue'
 export default {
-    emits: ['editTask'],
+    emits: ['editTitle'],
     components: {
         TaskInput
     },
@@ -31,16 +30,19 @@ export default {
 
     data() {
         return {
-            newTitle: null,
-            newDesc: null
+            newTask: {
+                newTitle: null,
+                newDesc: null
+            }
         }
     },
 
     methods: {
         editTask() {
-            this.$emit('editTask', {
-                newTitle: "newTitle",
-                newDesc: "newDesc"
+            console.log(`editinput newtitle: ${this.newTask.newTitle}`)
+            this.$emit('editTitle', {
+                title: this.newTask.newTitle,
+                description: this.newTask.newDesc
             })
         },
         
