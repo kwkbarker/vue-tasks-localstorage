@@ -24,6 +24,9 @@
     <task-input
       v-model:title="title"
       v-model:description="description"
+      v-model:danger="danger"
+      v-model:warning="warning"
+      v-model:secondary="secondary"
     />
     <br />
     <button
@@ -50,6 +53,10 @@ export default {
     return {
       title: null,
       description: null,
+      danger: null,
+      warning: null,
+      secondary: null,
+      importance: null,
       newTitle: null,
       newDesc: null,
     }
@@ -66,31 +73,31 @@ export default {
       if (!this.title) {
         return
       }
+
+          
+      if (this.danger) {
+        this.importance = "danger"
+      } else if (this.warning) {
+        this.importance = "warning"
+      } else if (this.secondary) {
+        this.importance = "secondary"
+      }
+
       const newTask = {
-        id: this.$store.getters['tasks/count'] + 1,
+        id: this.$store.getters['tasks/lastNum'] + 1,
         title: this.title,
-        description: this.description
+        description: this.description,
+        importance: this.importance
       }
       // this.tasks.push(newTask)
       this.$store.commit('tasks/addTask', newTask)
       this.title = ''
       this.description = ''
-      // this.saveTasks()
+      this.$store.dispatch('tasks/save')
       this.$emit('refreshTasks')
     },
 
-    saveTasks() {
-      this.$store.dispatch('tasks/save')
-    },
-
     refreshTasks() {
-      // var self = this
-      // var str_data = localStorage.getItem('tasks')
-      // var arr = JSON.parse(str_data)
-
-      // for (let i = 0; i < arr.length; i++) {
-      //   self.tasks.push(arr[i])
-      // }
       this.$store.dispatch('tasks/fetch')
     },
 

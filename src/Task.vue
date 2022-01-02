@@ -1,27 +1,58 @@
 <template>
+
+<div class='accordion' id='accordion-tasks'>
   <div 
-    class="task"
+    class="card"
     @submit.prevent="editTask"
   >
-    <p>{{ task.title }}</p>
-    <p>{{ task.description}}</p>
-
-    <button 
-      id="{{ task.id }}" 
-      @click="editClick()"
+    <div 
+      class="card-header"
+      :class='bgColor'
+      role='tab' 
     >
-      Edit
-    </button>
+      <div class="row row-content align-items-center">
+        <div class='col-8 text-left'>
+          <h4 class='mb-0 text-white'>
+            <a 
+              class='btn btn-outline-dark btn-lg collapsed'
+              data-bs-toggle='collapse' 
+              :data-bs-target='tabPanelTarget'
+            >{{ task.title }}</a>
+          </h4>
+        </div>
 
-    <button @click="deleteClick()">
-      Delete
-    </button>
-
-    <edit-input
-      :editShow="editShow"
-      @editTitle='editTask'
-    />
+        <div class='col-4 text-right right-buttons'>
+          <button type="button" 
+            class='btn btn-sm btn-outline-info' 
+            @click="editClick(task)"
+          >Edit</button>
+          
+          <button 
+            class='btn btn-sm btn-outline-dark' 
+            @click="deleteClick()"
+          >Done!</button>
+        </div>
+      </div>
+      
+      <div 
+        role='tabpanel' 
+        class='collapse text-black-50' 
+        :id='tabPanelName' 
+        data-parent='#accordion-tasks'
+      >
+        <div 
+          class='card-body' 
+        >{{ task.description }}</div>
+      </div>
+    </div>
   </div>
+
+  <edit-input
+    :editShow="editShow"
+    :task="task"
+    @editTask='editTask'
+  />
+</div>
 </template>
 
 <script>
@@ -54,21 +85,40 @@ export default {
       const editedTask = {
         id: this.task.id,
         title: newTask.title,
-        description: newTask.description
+        description: newTask.description,
+        importance: newTask.importance
       }
+      // this.$store.commit('tasks/deleteTask', editedTask.id)
       this.$store.commit('tasks/editTask', editedTask)
-
+      this.$store.dispatch('tasks/save')
       this.$emit('refreshTasks')
     },
 
-    editClick() {
+    editClick(task) {
       this.editShow = !this.editShow
     },
 
     deleteClick() {
       this.$store.commit('tasks/deleteTask', this.task.id)
+      this.$store.commit('tasks/fixIds')
+      this.$store.dispatch('tasks/save')
       this.$emit('refreshTasks')
-    }
+    },
+
+  },
+
+  computed: {
+    tabPanelName() {
+      return "panel" + this.task.id
+    },
+
+    tabPanelTarget() {
+      return "#" + this.tabPanelName
+    },
+
+    bgColor() {
+      return "bg-" + this.task.importance
+    },
   }
 }
 </script>
