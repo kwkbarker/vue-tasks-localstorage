@@ -57,8 +57,6 @@ export default {
       warning: null,
       secondary: null,
       importance: null,
-      newTitle: null,
-      newDesc: null,
     }
   },
 
@@ -73,7 +71,6 @@ export default {
       if (!this.title) {
         return
       }
-
           
       if (this.danger) {
         this.importance = "danger"

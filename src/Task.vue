@@ -23,8 +23,9 @@
 
         <div class='col-4 text-right right-buttons'>
           <button type="button" 
-            class='btn btn-sm btn-outline-info' 
-            @click="editClick(task)"
+            class='btn btn-sm btn-outline-info'
+            data-bs-toggle='modal'
+            :data-bs-target='modalName' 
           >Edit</button>
           
           <button 
@@ -48,7 +49,6 @@
   </div>
 
   <edit-input
-    :editShow="editShow"
     :task="task"
     @editTask='editTask'
   />
@@ -75,7 +75,7 @@ export default {
 
   data() {
     return {
-      editShow: false,
+      editShow: false
     }
   },
 
@@ -94,9 +94,6 @@ export default {
       this.$emit('refreshTasks')
     },
 
-    editClick(task) {
-      this.editShow = !this.editShow
-    },
 
     deleteClick() {
       this.$store.commit('tasks/deleteTask', this.task.id)
@@ -119,9 +116,13 @@ export default {
     bgColor() {
       return "bg-" + this.task.importance
     },
+
+    modalName() {
+      return "#editWindow" + this.task.id
+    }
   }
 }
-</script>
+</script> 
 
 <style scoped>
 .task {

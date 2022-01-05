@@ -21,8 +21,6 @@ const tasks = {
         },
 
         editTask(state, newTask) {
-            console.log(newTask)
-            console.log(state.all[newTask.id-1])
             state.all[newTask.id-1] = newTask
         },
 

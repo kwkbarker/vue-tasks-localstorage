@@ -2,15 +2,17 @@
   <div class="row-content justify-content-center mb-3">
     <input
       type="text"
-      :placeholder="placeTitle"
-      :value="title"
-      @input="$emit('update:newTitle', $event.target.value)"
+      placeholder="Title"
+      :value="fieldTitle"
+      id='title-input-field'
+      @input="$emit('update:title', $event.target.value)"
     />
     <input
       type="text"
-      :placeholder="placeDescription"
-      :value="description"
-      @input="$emit('update:newDescription', $event.target.value)"
+      placeholder="Description"
+      :value="fieldDescription"
+      id='description-input-field'
+      @input="$emit('update:description', $event.target.value)"
     />
 
 
@@ -21,32 +23,40 @@
       </div>
       <div class='col-sm-1'></div>
       <div class='btn-group btn-group-toggle col-sm-9' data-toggle='buttons'>
-        <label class='btn btn-danger'>
-          <input 
-            type='radio' 
-            class='btn-check'
-            name='importance' 
-            value='danger'
-            @input="$emit('update:danger', $event.target.value)"
-          />Urgent
+        <input 
+          type='radio' 
+          class='btn-check'
+          name='importance' 
+          value='danger'
+          id='dangerBtn'
+          @input="$emit('update:danger', $event.target.value)"
+        />
+        <label class='btn btn-outline-danger' for='dangerBtn'>
+          Urgent
         </label>
-        <label class='btn btn-warning'>
-          <input 
-            type='radio'
-            class='btn-check'
-            name='importance' 
-            value='warning'
-            @input="$emit('update:warning', $event.target.value)"
-          />Soon
+
+        <input 
+          type='radio'
+          class='btn-check'
+          name='importance' 
+          value='warning'
+          id='warningBtn'
+          @input="$emit('update:warning', $event.target.value)"
+        />
+        <label class='btn btn-outline-warning' for='warningBtn'>
+          Soon
         </label>
-        <label class='btn btn-secondary'>
-          <input 
-            type='radio' 
-            class='btn-check'
-            name='importance'
-            value='secondary'
-            @input="$emit('update:secondary', $event.target.value)"
-          />Whenever
+
+        <input 
+          type='radio' 
+          class='btn-check'
+          name='importance'
+          value='secondary'
+          id='secondaryBtn'
+          @input="$emit('update:secondary', $event.target.value)"
+        />
+        <label class='btn btn-outline-secondary' for='secondaryBtn'>
+          Whenever
         </label>
       </div>
     </div>
@@ -56,7 +66,7 @@
 
 <script>
 export default {
-  emits: ['update:newTitle', 'update:newDescription', 'update:danger', 'update:warning', 'update:secondary'],
+  emits: ['update:title', 'update:description', 'update:danger', 'update:warning', 'update:secondary'],
   props: {
     title: {
       type: String
@@ -66,26 +76,27 @@ export default {
     },
     edit: {
       type: Boolean
+    },
+    task: Object
+  },
+
+  data() {
+    return {
+      fieldTitle: null,
+      fieldDescription: null
     }
   },
 
-  computed: {
-    placeTitle() {
-      if (this.edit) {
-        return this.title
-      } else {
-        return "Title"
-      }
-    },
-
-    placeDescription() {
-      if (this.edit) {
-        return this.description
-      } else {
-        return "Description"
-      }
-    },
-  }
+  mounted() {
+    if (this.edit) {
+      this.fieldTitle = this.task.title
+      this.fieldDescription = this.task.description
+    } else {
+      this.fieldTitle = this.title
+      this.fieldDescription = this.description
+    }
+    
+  },
 
 }
 </script>

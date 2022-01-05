@@ -1,23 +1,35 @@
 <template>
-    <div
-        v-if="editShow"
-    >
-            <task-input
-                :edit="edit"
-                :title="task.title"
-                :description="task.description"
-                v-model:newTitle="newTask.newTitle"
-                v-model:newDescription="newTask.newDesc"
-                v-model:danger="danger"
-                v-model:warning="warning"
-                v-model:secondary="secondary"
-            />
-            <button @click="editTask">
-                Submit
-            </button>
-        
+    <div :id="editWindowName" class="modal fade">
+        <div class='modal-dialog modal-lg'>
+            <div class="modal-content">
+                <div class='modal-header'>
+                    <h4 style="color: black;">Edit Task</h4>
+                    <button type="button" class="close" data-bs-dismiss='modal'>
+                        &times;
+                    </button>
+                </div>
+
+                <div class='modal-body'>
+                    <task-input
+                        :edit="edit"
+                        :task="task"
+                        v-model:title="newTask.newTitle"
+                        v-model:description="newTask.newDesc"
+                        v-model:danger="danger"
+                        v-model:warning="warning"
+                        v-model:secondary="secondary"
+                    />
+                
+                    <button
+                        data-bs-dismiss="modal"
+                        @click="editTask"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    
 </template>
 
 <script>
@@ -29,9 +41,6 @@ export default {
     },
 
     props: {
-        editShow: {
-            type: Boolean
-        },
         task: {
             title: String,
             description: String
@@ -57,10 +66,13 @@ export default {
         editTask() {
 
             if (this.danger) {
+                console.log('danger')
                 this.newTask.newImport = "danger"
             } else if (this.warning) {
+                console.log('warning')
                 this.newTask.newImport = "warning"
             } else if (this.secondary) {
+                console.log('secondary')
                 this.newTask.newImport = "secondary"
             }
             this.$emit('editTask', {
@@ -69,6 +81,12 @@ export default {
                 importance: this.newTask.newImport
             })
         },
+    },
+
+    computed: {
+        editWindowName() {
+            return "editWindow" + this.task.id
+        }
     }
     
 }
