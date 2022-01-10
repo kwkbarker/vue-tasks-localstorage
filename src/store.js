@@ -67,17 +67,17 @@ const tasks = {
             }
         },
 
-        title(state, id) {
-            return state.all[id-1].title
-        },
+        // title(state, id) {
+        //     return state.all[id-1].title
+        // },
 
-        description(state, id) {
-            return state.all[id-1].description
-        },
+        // description(state, id) {
+        //     return state.all[id-1].description
+        // },
 
-        importance(state, id) {
-            return state.all[id-1].importance
-        }
+        // importance(state, id) {
+        //     return state.all[id-1].importance
+        // },
     }
 }
 

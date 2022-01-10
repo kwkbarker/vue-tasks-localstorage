@@ -25,7 +25,8 @@
           <button type="button" 
             class='btn btn-sm btn-outline-info'
             data-bs-toggle='modal'
-            :data-bs-target='modalName' 
+            :data-bs-target='modalName'
+            @click="prefill(task.id)"
           >Edit</button>
           
           <button 
@@ -75,6 +76,7 @@ export default {
 
   methods: {
     editTask(newTask) {
+      // Called on emit from EditInput
       const editedTask = {
         id: this.task.id,
         title: newTask.title,
@@ -91,12 +93,24 @@ export default {
       this.$store.commit('tasks/deleteTask', this.task.id)
       this.$store.commit('tasks/fixIds')
       this.$store.dispatch('tasks/save')
+
+      // call refreshTasks in parent component (App.vue)
       this.$emit('refreshTasks')
     },
+
+    prefill() {
+      // PREFILL EDIT FIELDS WITH SAVED TASK INFO
+      // Called on launch of edit modal
+      document.getElementById(this.titleInputId).value = this.task.title
+      document.getElementById(this.descInputId).value = this.task.description
+    }
 
   },
 
   computed: {
+
+    // compute various IDs for task elements and Bootstrap targeting values
+
     tabPanelName() {
       return "panel" + this.task.id
     },
@@ -111,7 +125,23 @@ export default {
 
     modalName() {
       return "#editWindow" + this.task.id
-    }
+    },
+
+    titleInputId() {
+      if (this.task) {
+        return 'title-input-field-' + this.task.id
+      } else {
+        return 'title-input-field-main'
+      }
+    },
+
+    descInputId() {
+      if (this.task) {
+        return 'description-input-field-' + this.task.id
+      } else {
+        return 'description-input-main'
+      }
+    },
   }
 }
 </script> 

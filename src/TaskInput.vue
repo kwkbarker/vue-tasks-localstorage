@@ -40,7 +40,7 @@
           value='danger'
           checked='true'
           :id='dangBtnId'
-          @input="clickDang"
+          @input="$emit('update:importance', 'danger')"
         />
         <label class='btn btn-outline-danger' :for='dangBtnId'>
           Urgent
@@ -51,7 +51,8 @@
           name='importance'
           value='warning'
           :id='warnBtnId'
-          @input="clickWarn"
+          @input="$emit('update:importance', 'warning')"
+
         />
         <label class='btn btn-outline-warning' :for='warnBtnId'>
           Soon
@@ -62,7 +63,7 @@
           name='importance'
           value='secondary'
           :id='secBtnId'
-          @input="clickSec"
+          @input="$emit('update:importance', 'secondary')"
         />
         <label class='btn btn-outline-secondary' :for='secBtnId'>
           Whenever
@@ -101,37 +102,15 @@ export default {
     }
   },
 
-  mounted() {
-    this.prefill()
-  },
-
-  methods: {
-    clickDang() {
-      dangBtnId.setAttribute('checked', true)
-      this.$emit('update:importance', "danger")
-    },
-
-    clickWarn() {
-      warnBtnId.setAttribute('checked', true)
-      this.$emit('update:importance', "warning")
-    },
-
-    clickSec() {
-      secBtnId.setAttribute('checked', true)
-      this.$emit('update:importance', 'secondary')
-    },
-
-    prefill() {
-      // PREFILL EDIT FIELDS WITH SAVED TASK INFO
-      if (this.edit) {
-        document.getElementById(this.titleInputId).value = this.task.title
-        document.getElementById(this.descInputId).value = this.task.description
-      }
-
-    }
-  },
+  // data() {
+  //   return {
+  //     titleField: null,
+  //     descriptionField: null
+  //   }
+  // },
 
   computed: {
+    // compute element IDs to access in methods or within parent component (Task)
     titleInputId() {
       if (this.task) {
         return 'title-input-field-' + this.task.id
