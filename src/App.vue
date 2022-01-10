@@ -1,40 +1,41 @@
 <template>
   <div class="wrapper">
-    <h2>Tasks</h2>
-    <div
-         v-if="tasks != []"
-      >
-        <div class="tasks"
-          v-for="task in tasks"
-          :key="task.id"
+    <div class="tasks-list">
+      <h2 class="grey">Tasks</h2>
+      <div
+           v-if="tasks.length > 0"
         >
-          <task :task="task" 
-          @refreshTasks='refreshTasks'
-          />
-   
-        </div>
+          <div class="tasks"
+            v-for="task in tasks"
+            :key="task.id"
+          >
+            <task :task="task"
+            @refreshTasks='refreshTasks'
+            />
+          </div>
+      </div>
+      <div
+          v-else
+        >
+        <h5>No tasks to show.</h5>
+      </div>
     </div>
-    <div
-        v-else
+  <div class="new-task">
+    <h2 class="grey">New Task</h2>
+    <form @submit.prevent="addTask">
+      <task-input
+        v-model:title="title"
+        v-model:description="description"
+        v-model:importance="importance"
+      />
+      <button
+        type="submit"
+        class="btn btn-primary"
       >
-      <h5>No tasks to show.</h5>
-    </div>
-  <h2>New Task</h2>
-  <form @submit.prevent="addTask">
-    <task-input
-      v-model:title="title"
-      v-model:description="description"
-      v-model:danger="danger"
-      v-model:warning="warning"
-      v-model:secondary="secondary"
-    />
-    <br />
-    <button
-      type="submit"
-    >
-      Submit
-    </button>
-  </form>
+        Submit
+      </button>
+    </form>
+  </div>
   </div>
 </template>
 
@@ -53,9 +54,6 @@ export default {
     return {
       title: null,
       description: null,
-      danger: null,
-      warning: null,
-      secondary: null,
       importance: null,
     }
   },
@@ -71,31 +69,27 @@ export default {
       if (!this.title) {
         return
       }
-          
-      if (this.danger) {
-        this.importance = "danger"
-      } else if (this.warning) {
-        this.importance = "warning"
-      } else if (this.secondary) {
-        this.importance = "secondary"
-      }
 
       const newTask = {
-        id: this.$store.getters['tasks/lastNum'] + 1,
+        id: this.$store.getters['tasks/nextId'],
         title: this.title,
         description: this.description,
         importance: this.importance
       }
-      // this.tasks.push(newTask)
       this.$store.commit('tasks/addTask', newTask)
-      this.title = ''
-      this.description = ''
       this.$store.dispatch('tasks/save')
+      this.title = null
+      this.description = null
+      this.importance = null
+
       this.$emit('refreshTasks')
     },
 
     refreshTasks() {
       this.$store.dispatch('tasks/fetch')
+      this.title = null
+      this.description = null
+      this.importance = null
     },
 
   },
@@ -119,7 +113,6 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
 }
 
 .tasks {
@@ -128,5 +121,15 @@ button {
 
 edit-input {
   margin:0;
+}
+
+.grey {
+  color: rgb(110, 110, 110);
+}
+
+h2, h5 {
+  margin-left: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

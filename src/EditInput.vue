@@ -3,7 +3,7 @@
         <div class='modal-dialog modal-lg'>
             <div class="modal-content">
                 <div class='modal-header'>
-                    <h4 style="color: black;">Edit Task</h4>
+                    <h4>Edit Task</h4>
                     <button type="button" class="close" data-bs-dismiss='modal'>
                         &times;
                     </button>
@@ -15,13 +15,12 @@
                         :task="task"
                         v-model:title="newTask.newTitle"
                         v-model:description="newTask.newDesc"
-                        v-model:danger="danger"
-                        v-model:warning="warning"
-                        v-model:secondary="secondary"
+                        v-model:importance="newTask.newImport"
                     />
                 
                     <button
                         data-bs-dismiss="modal"
+                        class="btn btn-primary"
                         @click="editTask"
                     >
                         Submit
@@ -42,8 +41,10 @@ export default {
 
     props: {
         task: {
+            id: Number,
             title: String,
-            description: String
+            description: String,
+            importance: String
         },
     },
 
@@ -64,17 +65,6 @@ export default {
 
     methods: {
         editTask() {
-
-            if (this.danger) {
-                console.log('danger')
-                this.newTask.newImport = "danger"
-            } else if (this.warning) {
-                console.log('warning')
-                this.newTask.newImport = "warning"
-            } else if (this.secondary) {
-                console.log('secondary')
-                this.newTask.newImport = "secondary"
-            }
             this.$emit('editTask', {
                 title: this.newTask.newTitle,
                 description: this.newTask.newDesc,

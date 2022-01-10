@@ -1,4 +1,3 @@
-import { looseIndexOf } from '@vue/shared'
 import { createStore } from 'vuex'
 
 // module: tasks
@@ -13,7 +12,11 @@ const tasks = {
 
     mutations: {
         setTasks(state, tasks) {
-            state.all = tasks
+            if (tasks) {
+                state.all = tasks
+            } else {
+                state.all = []
+            }
         },
 
         addTask(state, task) {
@@ -21,16 +24,16 @@ const tasks = {
         },
 
         editTask(state, newTask) {
-            state.all[newTask.id-1] = newTask
+            state.all[newTask.id] = newTask
         },
 
         deleteTask(state, taskId) {
-            state.all.splice([taskId-1], 1)
+            state.all.splice([taskId], 1)
         },
 
         fixIds(state) {
             for (var i = 0; i < state.all.length; i++){
-                state.all[i].id = i + 1
+                state.all[i].id = i
             }
         }
 
@@ -56,12 +59,24 @@ const tasks = {
             return state.all.length
         },
 
-        lastNum(state) {
+        nextId(state) {
             if (state.all.length > 0) {
-                return state.all[state.all.length - 1].id
+                return state.all.length
             } else {
                 return 0
             }
+        },
+
+        title(state, id) {
+            return state.all[id-1].title
+        },
+
+        description(state, id) {
+            return state.all[id-1].description
+        },
+
+        importance(state, id) {
+            return state.all[id-1].importance
         }
     }
 }

@@ -73,22 +73,14 @@ export default {
     editDesc: String
   },
 
-  data() {
-    return {
-      editShow: false
-    }
-  },
-
   methods: {
     editTask(newTask) {
-      this.editShow = false
       const editedTask = {
         id: this.task.id,
         title: newTask.title,
         description: newTask.description,
         importance: newTask.importance
       }
-      // this.$store.commit('tasks/deleteTask', editedTask.id)
       this.$store.commit('tasks/editTask', editedTask)
       this.$store.dispatch('tasks/save')
       this.$emit('refreshTasks')
