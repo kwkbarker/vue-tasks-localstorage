@@ -103,6 +103,18 @@ export default {
       // Called on launch of edit modal
       document.getElementById(this.titleInputId).value = this.task.title
       document.getElementById(this.descInputId).value = this.task.description
+      if (this.task.importance == "danger") {
+        console.log(this.dangBtnId)
+        document.getElementById(this.dangBtnId).setAttribute('checked', true)
+      } else if (this.task.importance == "warning") {
+        document.getElementById(this.warnBtnId).setAttribute('checked', true)
+      } else if (this.task.importance == "secondary") {
+        document.getElementById(this.secBtnId).setAttribute('checked', true)
+      } else {
+        document.getElementById(this.dangBtnId).setAttribute('checked', false)
+        document.getElementById(this.warnBtnId).setAttribute('checked', false)
+        document.getElementById(this.secBtnId).setAttribute('checked', false)
+      }
     }
 
   },
@@ -142,6 +154,25 @@ export default {
         return 'description-input-main'
       }
     },
+
+    dangBtnId() {
+      if (this.task) {
+        return 'dangBtnId-' + this.task.id
+      } 
+    },
+
+    warnBtnId() {
+      if (this.task) {
+        return 'warnBtnId-' + this.task.id
+      } 
+    },
+
+    secBtnId() {
+      if (this.task) {
+        return 'secBtnId-' + this.task.id
+      } 
+    },
+    
   }
 }
 </script> 
