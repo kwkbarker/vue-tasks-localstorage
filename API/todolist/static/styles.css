@@ -1,0 +1,39 @@
+body {
+    background-color: #212121;
+    color: white
+}
+
+.card .bg-danger {
+    background-color: #ff8080 !important;
+}
+
+.card .bg-warning {
+    background-color: #ffdf80 !important;
+}
+
+.card .bg-secondary {
+    background-color: #bfbfbf !important;
+}
+
+.right-buttons .btn-sm {
+    width: 5em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.profile_pic {
+    max-height: 10em;
+}
+
+.uploader {
+    margin-top: .5em;
+}
+
+.textfield p {
+    display: flex;
+    justify-content: center;
+}
+
+.textfield input {
+    width: 20em;
+}
