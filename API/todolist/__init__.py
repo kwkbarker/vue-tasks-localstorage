@@ -16,7 +16,7 @@ app = Flask(__name__, static_url_path='/todolist/static')
 # # configuration
 
 # app.config["SQLALCHEMY_DATABASE_URI"]= f'postgresql+psycopg2://kwkbarker:{PASSWORD}@/{DBNAME}?host={PUBLIC_IP_ADDRESS}'
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= True
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= False
 
 
 # SQLITE DB VERSION
@@ -31,7 +31,8 @@ db.create_all()
 
 
 # enable CORS
-CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app, resources={r'/*': {'origins': '*'}}, CORS_SUPPORTS_CREDENTIALS=True)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.config['SECRET_KEY'] = '5475298b378974fc7aa4f496'
 

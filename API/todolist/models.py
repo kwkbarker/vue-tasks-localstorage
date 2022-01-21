@@ -1,7 +1,9 @@
+from flask import jsonify
 from todolist import db, login_manager, admin
 from flask_login import UserMixin
 from flask_admin.contrib.sqla import ModelView
 import bcrypt
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -40,6 +42,16 @@ class Task(db.Model):
 
     def __repr__(self):
         return self.title
+
+    # creates JSON-friendly format
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'importance': self.importance
+        }
 
 # add db views to admin page
 admin.add_view(ModelView(User, db.session))
