@@ -21,7 +21,7 @@ import os
 
 
 @app.route('/tasks', methods=['GET','POST', 'DELETE', 'PUT'])
-@login_required
+# @login_required
 def tasks():
     response_object = {'status': 'success'}
     request_object = request.get_json()

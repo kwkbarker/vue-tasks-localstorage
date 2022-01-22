@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_admin import Admin
 from flask_cors import CORS
+import logging
 
 # initialize app, db, session, hash function, login, admin
 app = Flask(__name__, static_url_path='/todolist/static')
@@ -31,8 +32,9 @@ db.create_all()
 
 
 # enable CORS
-CORS(app, resources={r'/*': {'origins': '*'}}, CORS_SUPPORTS_CREDENTIALS=True)
+cors = CORS(app, resources={r'/*': {'origins': '*'}}, CORS_SUPPORTS_CREDENTIALS=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 app.config['SECRET_KEY'] = '5475298b378974fc7aa4f496'
 

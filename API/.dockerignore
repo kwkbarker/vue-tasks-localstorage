@@ -8,3 +8,6 @@ Pipfile.lock
 
 README.md
 
+venv/
+
+flask_session/
